@@ -1,0 +1,77 @@
+# Macro file for example Geantaccommodate
+# Can be run in batch, without graphic
+# or interactively: Idle> /control/execute run1.mac
+#
+# Default kinematics: 
+# electron 50 MeV in direction (0.,0.,1.)
+# 1 event with tracking/verbose
+#
+/control/verbose 2
+/tracking/verbose 0
+/run/verbose 0
+#
+#
+##########################
+# Set detector properties
+#
+
+
+/Sensor/phys/addPhysics emstandard_opt3
+
+/Detector/type Timepix3
+/Timepix/mode ToT
+/Timepix/threshold 3 keV
+
+/Detector/digitizer DigitizerWeightField
+
+#
+## configure output
+#
+/Output/hdf5 /home/ihtesham/simulations/angle0-300kv-500si-50000.h5
+
+# Write config.ini
+#/Output/config electron
+
+# Spare binary output of pixels
+#/Output/sparse electron
+
+# Output of frames in ascii
+#/Output/frames frames
+
+# Write trajectories
+/Output/store true
+
+#
+## Set cuts
+#
+/run/setCut  1 um
+#
+## Configure sensor
+#
+/Sensor/material      G4_Si
+/Sensor/thickness     500 um
+/Sensor/pixels        20
+/Sensor/pixelSize     55 um
+/Sensor/Update
+
+
+#
+## Configure histograms
+#
+
+/run/initialize
+
+## General Particle Source
+#
+# point source in the center towards the detector
+/gps/particle e-
+/gps/energy 300 keV
+/gps/pos/type Plane
+/gps/pos/shape Square
+/gps/pos/halfx 27.5 um
+/gps/pos/halfy 27.5 um
+
+/gps/pos/centre 0. 0. -5. mm
+/gps/direction  0 0 1
+
+/run/beamOn 50000
